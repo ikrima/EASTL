@@ -148,6 +148,7 @@ string_map<T, Predicate, Allocator>::operator[](const char* key)
 	iterator i = base::base_type::find(key);
 	if (i != base::base_type::end())
 		return i->second;
+	EASTL_FAIL_MSG("string_map::operator[] -- out of range");
 	return base::base_type::insert(base_value_type(pair_first_construct, strduplicate(key))).first->second;
 }
 

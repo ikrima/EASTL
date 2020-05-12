@@ -266,6 +266,8 @@ namespace eastl
 		//     vMap[100] = vMap[0]
 		mapped_type& operator[](const key_type& k);
 		mapped_type& operator[](key_type&& k);
+		mapped_type const& operator[](const key_type& k) const;
+		mapped_type const& operator[](key_type&& k) const;
 
 		// Functions which are disallowed due to being unsafe. 
 		void      push_back(const value_type& value) = delete;
@@ -804,8 +806,10 @@ namespace eastl
 	{
 		iterator itLB(lower_bound(k));
 
-		if((itLB == end()) || key_comp()(k, (*itLB).first))
-			itLB = insert(itLB, value_type(k, mapped_type()));
+		if((itLB == end()) || key_comp()(k, (*itLB).first)) {
+			//itLB = insert(itLB, value_type(k, mapped_type())); 
+			EASTL_FAIL_MSG("vector_map::operator[] -- out of range"); 
+		}
 		return (*itLB).second;
 	}
 
@@ -816,8 +820,32 @@ namespace eastl
 	{
 		iterator itLB(lower_bound(k));
 
+		if((itLB == end()) || key_comp()(k, (*itLB).first)) {
+			//itLB = insert(itLB, value_type(eastl::move(k), mapped_type()));        
+			EASTL_FAIL_MSG("vector_map::operator[] -- out of range");
+        }
+		return (*itLB).second;
+	}
+
+	template <typename K, typename T, typename C, typename A, typename RAC>
+	inline typename vector_map<K, T, C, A, RAC>::mapped_type const&
+	vector_map<K, T, C, A, RAC>::operator[](const key_type& k) const
+	{
+		const_iterator itLB(lower_bound(k));
+
 		if((itLB == end()) || key_comp()(k, (*itLB).first))
-			itLB = insert(itLB, value_type(eastl::move(k), mapped_type()));
+			{ EASTL_FAIL_MSG("vector_map::operator[] -- out of range"); }
+		return (*itLB).second;
+	}
+
+	template <typename K, typename T, typename C, typename A, typename RAC>
+	inline typename vector_map<K, T, C, A, RAC>::mapped_type const&
+	vector_map<K, T, C, A, RAC>::operator[](key_type&& k) const
+	{
+		const_iterator itLB(lower_bound(k));
+
+		if((itLB == end()) || key_comp()(k, (*itLB).first))
+			{ EASTL_FAIL_MSG("vector_map::operator[] -- out of range"); }
 		return (*itLB).second;
 	}
 

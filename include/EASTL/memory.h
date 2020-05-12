@@ -216,8 +216,10 @@ namespace eastl
 
 		~late_constructed()
 		{
-			if (autoDestruct && mpValue)
-				(*mpValue).~value_type();
+			if constexpr (autoDestruct) {
+				if (autoDestruct && mpValue)
+					(*mpValue).~value_type();
+			}
 		}
 
 		template <typename... Args>

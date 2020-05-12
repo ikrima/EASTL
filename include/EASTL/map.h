@@ -411,7 +411,8 @@ namespace eastl
 
 		if((itLower == end()) || compare(key, (*itLower).first))
 		{
-			itLower = base_type::DoInsertKey(true_type(), itLower, key);
+			//itLower = base_type::DoInsertKey(true_type(), itLower, key);
+			EASTL_FAIL_MSG("map::operator[] -- out of range");
 		}
 
 		return (*itLower).second;
@@ -429,7 +430,8 @@ namespace eastl
 
 		if((itLower == end()) || compare(key, (*itLower).first))
 		{
-			itLower = base_type::DoInsertKey(true_type(), itLower, eastl::move(key));
+			//itLower = base_type::DoInsertKey(true_type(), itLower, eastl::move(key));
+			EASTL_FAIL_MSG("map::operator[] -- out of range");
 		}
 
 		return (*itLower).second;
