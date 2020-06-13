@@ -1027,6 +1027,12 @@ public:
 		swap(temp);
 	}
 
+	inline void set_capacity(size_type n)
+	{
+		resize(n);
+		shrink_to_fit();
+	}
+
 	void clear() EA_NOEXCEPT
 	{
 		size_type oldNumElements = mNumElements;
