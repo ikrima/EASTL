@@ -270,7 +270,8 @@ namespace eastl
 
 		mapped_type& operator[](const key_type& key)
 		{
-			return (*base_type::DoInsertKey(true_type(), key).first).second;
+			//return (*base_type::DoInsertKey(true_type(), key).first).second;
+			return at(key);
 
 			// Slower reference version:
 			//const typename base_type::iterator it = base_type::find(key);
@@ -282,7 +283,8 @@ namespace eastl
 		mapped_type& operator[](key_type&& key)
 		{
 			// The Standard states that this function "inserts the value value_type(std::move(key), mapped_type())"
-			return (*base_type::DoInsertKey(true_type(), eastl::move(key)).first).second;
+			//return (*base_type::DoInsertKey(true_type(), eastl::move(key)).first).second;
+			return at(key);
 		}
 
 
